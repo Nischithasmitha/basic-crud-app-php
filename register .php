@@ -3,20 +3,44 @@ include 'db.php';
 
 if(isset($_POST['register']))
 {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $username = trim($_POST['username']);
+$password = trim($_POST['password']);
+$role = $_POST['role'];
+if(empty($username) || empty($password))
+{
+    die("All fields are required");
+}
 
-    $sql = "INSERT INTO users(username,password)
-            VALUES('$username','$password')";
+if(strlen($password) < 6)
+{
+    die("Password must be at least 6 characters");
+}
 
-    if(mysqli_query($conn,$sql))
-    {
-        echo "Registration Successful!";
-    }
-    else
-    {
-        echo "Error!";
-    }
+if(empty($username) || empty($password))
+{
+    echo "All fields are required";
+}
+else
+{
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = mysqli_prepare(
+        $conn,
+        "INSERT INTO users(username,password,role) VALUES(?,?,?)"
+    );
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "sss",
+        $username,
+        $hashed_password,
+        $role
+    );
+
+    mysqli_stmt_execute($stmt);
+
+    echo "Registration Successful!";
+}
 }
 ?>
 
@@ -36,6 +60,13 @@ if(isset($_POST['register']))
 
     Password:<br>
     <input type="password" name="password" required><br><br>
+
+    Role:<br>
+<select name="role" required>
+    <option value="editor">Editor</option>
+    <option value="admin">Admin</option>
+</select>
+<br><br>
 
     <button type="submit" name="register">
         Register

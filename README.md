@@ -1,23 +1,15 @@
 # Blog Project
 
-A PHP and MySQL Blog Application.
+Features:
+- User Registration
+- User Login/Logout
+- Role-Based Access Control
+- Admin can Add Posts
+- Editor can View Posts
+- MySQL Database Integration
 
-## Features Added in Task 3
-
-- Search functionality
-- Pagination
-- Improved UI with CSS styling
-
-## Technologies Used
-
+Technologies:
 - PHP
 - MySQL
 - HTML
 - CSS
-
-## How to Run
-
-1. Start Apache and MySQL in XAMPP
-2. Import the database
-3. Open:
-   http://localhost/blog-project
